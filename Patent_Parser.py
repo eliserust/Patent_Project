@@ -64,6 +64,6 @@ for link in main_clean:
 
 
 print(zip_file_links)
-    
-
-
+ 
+# filter for .zip urls
+zip_file_links = [k for k in zip_file_links if 'zip' in k]
