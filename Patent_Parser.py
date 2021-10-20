@@ -60,10 +60,19 @@ for link in main_clean:
     
     for link in links:
      # print(link.get('href'))
-      zip_file_links.append(link.get('href')) # add links to zip_file_links list
+      zip_file_links.append(os.path.join(temp_url, link.get('href'))) # add links to zip_file_links list
 
 
 print(zip_file_links)
  
 # filter for .zip urls
 zip_file_links = [k for k in zip_file_links if 'zip' in k]
+
+###### Clean up Zip_File_Links list
+zip_file_links = [k for k in zip_file_links if 'zip' in k] # remove non-zip links
+zip_file_links = [k for k in zip_file_links if 'http' in k] # remove short links
+
+zip_df = pd.DataFrame(zip_file_links) # convert to dataframe
+
+# Write dataframe of links to .csv
+zip_df.to_csv("/Users/eliserust/Desktop/ZipLinks.csv")
