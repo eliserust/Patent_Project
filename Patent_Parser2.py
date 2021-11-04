@@ -92,17 +92,36 @@ for link in html_list:
     page = codecs.open(link, "r", "utf-8")
     page_content = page.read()
     
-    #   
+    # Extract table
+    soup = BeautifulSoup(page_content, 'lxml')
+    #table = soup.find_all('table')[0] # grab first table where key info is stored
+    table = soup.find_all('td', attrs={"class":"table_data"}) # grab all elements of class "table_data"
+    pprint.pprint(table) # pretty print table
     
-     # Extract nodes of interest (author, company, patent name, date of publication) from table
+    
+    # Extract nodes of interest (author, company, patent name, date of publication) from table
+    patent_name = table[1].text
+    patent_no = table[0].text
+    author = str(soup.find_all(text = re.compile('Filed by')))
+    company = str(soup.find_all(text = re.compile('Assigned to')))
+    date = str(soup.find_all(text = re.compile('Filed on')))
+    
+    ### TO DO: Clean up the dictionary valules
+    
+    # Combine into a list
+    dict_values = [patent_name, patent_no, author, company, date]
      
-     # Create dictionary for individual patent
+     
+    # Create dictionary for individual patent
+    dict_keys = ["Patent Name", "Patent Number", "Author(s)", "Company", "Date"]
+    zip_dict = zip(dict_keys, dict_values)
+    patent_dict = dict(zip_dict)
+    
          
-     # Write dictinoary to file as JSON
-    
-    
-    # Append dictionary as new line in output file
+    # TO DO: Fix this
+    #Write dictinoary to file as JSON
+    with open("Patents.json", "w") as outfile:
+	# write a JSON formatted dict obj as string out outfile
+        outfile.write(f"{json.dumps(patent_dict)}\n")
 
-
-
-      # each page --> key info is in the top table
+ 
