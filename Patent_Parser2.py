@@ -87,29 +87,48 @@ html_df.to_csv("/Users/eliserust/Desktop/HTML.csv")
 
 
 ####### Open each .html file
-for link in html_list:
+for link in html_list_test:
     
     page = codecs.open(link, "r", "utf-8")
     page_content = page.read()
     
     # Extract table
     soup = BeautifulSoup(page_content, 'lxml')
-    #table = soup.find_all('table')[0] # grab first table where key info is stored
     table = soup.find_all('td', attrs={"class":"table_data"}) # grab all elements of class "table_data"
-    pprint.pprint(table) # pretty print table
+    #pprint.pprint(table) # pretty print table
     
     
     # Extract nodes of interest (author, company, patent name, date of publication) from table
-    patent_name = table[1].text
-    patent_no = table[0].text
-    author = str(soup.find_all(text = re.compile('Filed by')))
-    company = str(soup.find_all(text = re.compile('Assigned to')))
-    date = str(soup.find_all(text = re.compile('Filed on')))
+    patent_name = table[1].text # Patent Name
+    patent_no = table[0].text # Patent Number
+    author = table[2].text # Patent Author
+    #author = str(soup.find_all(text = re.compile('Filed by'))) # Patent Author
+    company = str(soup.find_all(text = re.compile('Assigned to'))) # Patent Company
+    date = str(soup.find_all(text = re.compile('Filed on'))) # Date
     
-    ### TO DO: Clean up the dictionary valules
+    ## Clean up the dictionary valules
+    patent_no = patent_no[3:]  # Remove "US" from front
+    patent_no = patent_no[:-3] # Remove "B2" from end
+    # print(patent_no)
+    
+    author = author.strip("[]") # Remove brackets
+    author = author.strip("''") # Remove quotes
+    author = author.strip("Filed by ")
+    # print(author)
+    
+    company = company.strip("[]") # Remove brackets
+    company = company.strip("'") # Remove quotes
+    company = company[13:] # Remove "Assigned to" without compromising company name
+    # print(company)
+    
+    date = date[11:]
+    sep = ', as'
+    date = date.split(sep, 1)[0]
+    # print(date)
     
     # Combine into a list
     dict_values = [patent_name, patent_no, author, company, date]
+    #print(dict_values)
      
      
     # Create dictionary for individual patent
@@ -117,11 +136,11 @@ for link in html_list:
     zip_dict = zip(dict_keys, dict_values)
     patent_dict = dict(zip_dict)
     
+    print(patent_dict)
+    
          
-    # TO DO: Fix this
-    #Write dictinoary to file as JSON
-    with open("Patents.json", "w") as outfile:
+    # Write dictinoary to file as JSON
+    os.chdir('/Users/eliserust/Desktop')
+    with open("Patents.json", "a") as outfile:
 	# write a JSON formatted dict obj as string out outfile
         outfile.write(f"{json.dumps(patent_dict)}\n")
-
- 
