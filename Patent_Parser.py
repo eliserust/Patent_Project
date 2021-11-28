@@ -50,22 +50,14 @@ for index, row in zip_1.iterrows():
         with ZipFile(BytesIO(zipresp.read())) as zfile:
             zfile.extractall('/tmp/patents_main')
     
-     
-    
-####### Change directory to patents_main folder just created
-os.chdir('/tmp/patents_main')
-os.listdir() # list all file names in directory
-#### Note: Remove .DS_Store file via Terminal
-
-
-####### Use glob to extract all .html files from html folder
-#for filename in glob.glob("*.html"):
-#    print(filename)
+ 
 
 # Navigate to 'html' subfolders; open .html files in html folder
+#### Note: Remove .DS_Store file in /tmp/patents_main via Terminal
 rootdir = '/tmp/patents_main'
 html_list = [] # empty list for html links
 
+# Navigate through each .zip file to establish directories of each patent .html file
 for file in os.listdir(rootdir):
     temp_directory = (os.path.join(rootdir, file)) + "/OG/html"
     #print(temp_directory)
@@ -82,11 +74,11 @@ for file in os.listdir(rootdir):
                              
 
                 
-print(html_list)
+print(html_list) # Complete list of patent .html directories on server (prepped to scrape tables from each webpage)
 
 # Write to .csv to check for success
-html_df = pd.DataFrame(html_list) # convert to dataframe
-html_df.to_csv("/Users/eliserust/Desktop/HTML.csv")
+#html_df = pd.DataFrame(html_list) # convert to dataframe
+#html_df.to_csv("/Users/eliserust/Desktop/HTML.csv")
 
 
 ####### Open each .html file
