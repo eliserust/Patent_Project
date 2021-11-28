@@ -1,7 +1,9 @@
 ## Patent Project
 
 CLEAR Ventures
+
 Elise Rust & Zachary Poley
+
 November 2021 
 
 Patent parser to download and parse all patent files available at https://bulkdata.uspto.gov/ from years 2010 - 2020.
