@@ -13,9 +13,9 @@ Patent parser to download and parse all patent files available at https://bulkda
   * Unzipping zip files and generating dictionaries for each patent
 * Zip_Download.py
   * Sub script of Patent_Parser.py containing just zip download/unzip process
- * Zip_to_Dict.py
+* Zip_to_Dict.py
   * Sub script of Patent_Parser.py containing parsing script to generate dictionaries from each patent .html file
- * ZipLinks.csv
+* ZipLinks.csv
   * Table of zip file links containing patents
- * Patents.json
+* Patents.json
   * Sample dictionaries of first five patents in list
