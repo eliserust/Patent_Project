@@ -6,8 +6,7 @@ Created on Sun Oct 17 15:14:09 2021
 @author: eliserust
 """
 
-# Goal: From links, read in
-
+# From links, generate dictionaries for each patent
 
 ## Load in necessary libraries
 import requests
